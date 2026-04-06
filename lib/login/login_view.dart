@@ -7,23 +7,28 @@ class LoginView extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ログイン'),
-      ),
-      body: Column(
-        children: [
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'メールアドレス',
-            ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextField(decoration: InputDecoration(labelText: 'メールアドレス')),
+              TextField(
+                decoration: InputDecoration(labelText: 'パスワード'),
+                obscureText: true,
+              ),
+              SizedBox(height: 50),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text('ログイン'),
+                ),
+              ),
+            ],
           ),
-          TextField(
-            decoration: InputDecoration(
-              labelText: 'パスワード',
-            ),
-            obscureText: true,
-          ),
-        ],
+        ),
       ),
     );
   }
