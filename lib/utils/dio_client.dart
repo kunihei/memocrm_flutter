@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:memocrm/utils/refresh_repository.dart';
+import 'package:memocrm/utils/auth_interceptor.dart';
 
 /// Riverpod の `Provider`を使用して、アプリ全体で使い回す `Dio` クライアントを生成する
 ///
@@ -45,4 +47,17 @@ final dioProvider = Provider<Dio>((ref) {
   }());
 
   return dio;
+});
+
+final refreshRepositoryProvider = Provider<RefreshRepository>((ref) {
+  final dio = ref.read(dioProvider);
+  return RefreshRepository(dio);
+});
+
+final authInterceptorProvider = Provider<AuthInterceptor>((ref) {
+  final dio = ref.read(dioProvider);
+  final repo = ref.read(refreshRepositoryProvider);
+  final interceptor = AuthInterceptor(dio, repo);
+  dio.interceptors.add(interceptor);
+  return interceptor;
 });
