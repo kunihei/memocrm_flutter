@@ -27,6 +27,7 @@ class AuthInterceptor extends Interceptor {
 
     if (err.response?.statusCode == 401 && reqOptions.extra['retried'] != true) {
       try {
+        // 同時リフレッシュをまとめる（dio.lock は使わない）
         _refreshFuture ??= refreshRepo.refreshIfPossible();
         final didRefresh = await _refreshFuture;
         _refreshFuture = null;
@@ -34,39 +35,41 @@ class AuthInterceptor extends Interceptor {
         if (didRefresh != true) {
           return handler.next(err);
         }
+
         final prefs = await SharedPreferences.getInstance();
         final token = prefs.getString('login_accessToken');
         final tokenType = prefs.getString('login_tokenType') ?? 'Bearer';
-        if (token == null) {
-          return handler.next(err);
-        }
-        final updateHeaders = Map<String, dynamic>.from(reqOptions.headers)
-        ..['Authorization'] = '$tokenType $token';
+        if (token == null) return handler.next(err);
+
+        final updatedHeaders = Map<String, dynamic>.from(reqOptions.headers);
+        updatedHeaders['Authorization'] = '$tokenType $token';
 
         final options = Options(
           method: reqOptions.method,
-          headers: updateHeaders,
+          headers: updatedHeaders,
           responseType: reqOptions.responseType,
           contentType: reqOptions.contentType,
           followRedirects: reqOptions.followRedirects,
           validateStatus: reqOptions.validateStatus,
-        ); 
+          extra: {...reqOptions.extra, 'retried': true},
+        );
 
-        final extra = {...reqOptions.extra, 'retried': true};
         final resp = await dio.request<dynamic>(
           reqOptions.path,
           data: reqOptions.data,
           queryParameters: reqOptions.queryParameters,
-          options: options.copyWith(extra: extra),
+          options: options,
           cancelToken: reqOptions.cancelToken,
           onReceiveProgress: reqOptions.onReceiveProgress,
-          onSendProgress: reqOptions.onSendProgress
+          onSendProgress: reqOptions.onSendProgress,
         );
+
         return handler.resolve(resp);
       } catch (_) {
         return handler.next(err);
       }
     }
+
     return handler.next(err);
   }
 }
