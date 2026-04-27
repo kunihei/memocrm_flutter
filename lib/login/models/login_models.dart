@@ -1,8 +1,8 @@
 import 'package:memocrm/utils/api/api_response.dart';
 
 class LoginData {
-  final int userCd;
-  final String name;
+  // final int userCd;
+  // final String name;
   final String accessToken;
   final DateTime accessTokenExpiresAt;
   final String refreshToken;
@@ -10,8 +10,8 @@ class LoginData {
   final String tokenType;
 
   LoginData({
-    required this.userCd,
-    required this.name,
+    // required this.userCd,
+    // required this.name,
     required this.accessToken,
     required this.accessTokenExpiresAt,
     required this.refreshToken,
@@ -21,8 +21,8 @@ class LoginData {
 
   factory LoginData.fromJson(Map<String, dynamic> json) {
     return LoginData(
-      userCd: json['user_cd'],
-      name: json['name'],
+      // userCd: json['user_cd'],
+      // name: json['name'],
       accessToken: json['access_token'],
       accessTokenExpiresAt: DateTime.parse(json['access_token_expires_at']),
       refreshToken: json['refresh_token'],
@@ -39,16 +39,14 @@ class LoginResponse extends ApiResponse<LoginData> {
     super.data,
   });
 
-  factory LoginResponse.fromJson(Map<String, dynamic> json) {
-    final dataJson = json['data'];
-    final data = dataJson is Map<String, dynamic>
-        ? LoginData.fromJson(dataJson)
-        : null;
-
+  factory LoginResponse.fromJson(
+    Map<String, dynamic> json, {
+    required int status,
+  }) {
     return LoginResponse(
-      status: json['status'],
+      status: status,
       messageList: ApiResponse.parseMessage(json['message_list']),
-      data: data,
+      data: LoginData.fromJson(json),
     );
   }
 }

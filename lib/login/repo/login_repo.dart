@@ -19,7 +19,7 @@ class LoginRepo {
   /// - JSON を LoginResponse.fromJson に渡して変換したオブジェクトを返却する。
   /// - 戻り値は成功時の LoginResponse 失敗時は例外がそのまま投げられる。
   Future<LoginResponse> login({
-    required String userCd,
+    required String email,
     required String password,
   }) async {
     // POST リクエストでログインAPI を叩く
@@ -27,14 +27,14 @@ class LoginRepo {
     // - ジェネリクスを指定して response.data が Map<String, dynamic> として扱えるようにする
     final response = await _dio.post<Map<String, dynamic>>(
       ApiPath.login,
-      data: {'user_cd': userCd, 'password': password},
+      data: {'email': email, 'password': password},
+      options: Options(extra: {'skipAuth': true}),
     );
 
     // サーバが空レスポンスを返した場合に備えてデフォルト空の Map を用意
     final responseBody = response.data ?? const <String, dynamic>{};
-
     // JSON → LoginResponse へ変換して返却
-    return LoginResponse.fromJson(responseBody);
+    return LoginResponse.fromJson(responseBody, status: response.statusCode ?? 0);
   }
 }
 
