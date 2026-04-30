@@ -66,7 +66,7 @@ class CoResponse extends ApiResponse<List<CoData>> {
   // - json['message_list'] からメッセージ一覧を取得し、ApiResponse.parseMessage で共通形式に変換する。
   // - data 配列の各要素を CoData.fromJson に渡して、会社1件分ずつ CoData に変換する。
   // - 最後に toList() で Iterable<CoData> を List<CoData> に変換する。
-  factory CoResponse.formJson(
+  factory CoResponse.fromJson(
     Map<String, dynamic> json, {
     required int status,
   }) {
