@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:memocrm/login/view_model/login_viewmodel.dart';
 import 'package:memocrm/utils/refresh_repository.dart';
 import 'package:memocrm/utils/auth_interceptor.dart';
 
@@ -57,7 +58,9 @@ final refreshRepositoryProvider = Provider<RefreshRepository>((ref) {
 final authInterceptorProvider = Provider<AuthInterceptor>((ref) {
   final dio = ref.read(dioProvider);
   final repo = ref.read(refreshRepositoryProvider);
-  final interceptor = AuthInterceptor(dio, repo);
+  final interceptor = AuthInterceptor(dio, repo, onRefreshFailed: () async {
+    ref.read(loginViewModelProvider.notifier).logout();
+  },);
   dio.interceptors.add(interceptor);
   return interceptor;
 });
