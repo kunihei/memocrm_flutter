@@ -22,13 +22,16 @@ class CoCard extends StatelessWidget {
       child: InkWell(
         borderRadius: BorderRadius.circular(12),
         onTap: onTap,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(co.coName),
-            SizedBox(height: 20),
-            Text(co.coTantoName),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(co.coName),
+              SizedBox(height: 20),
+              Text(co.coTantoName),
+            ],
+          ),
         ),
       ),
     );
