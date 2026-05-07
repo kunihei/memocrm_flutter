@@ -78,7 +78,7 @@ class CoResponse extends ApiResponse<List<CoData>> {
       // HTTPステータスなど、呼び出し元から渡されたステータスを設定する。
       status: status,
       // API共通の message_list を、ApiResponse 側の共通処理で変換する。
-      messageList: ApiResponse.parseMessage(json['message_list']),
+      messageList: ApiResponse.parseMessage(json['message']),
       // dataJson が null でなければ、配列の各要素を CoData に変換する。
       // item は dynamic 型なので、CoData.fromJson に渡す前に Map<String, dynamic> へキャストする。
       data: dataJson
