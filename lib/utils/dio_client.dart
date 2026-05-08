@@ -26,6 +26,7 @@ final dioProvider = Provider<Dio>((ref) {
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
     contentType: Headers.formUrlEncodedContentType,
+    headers: {Headers.acceptHeader: Headers.jsonContentType},
   );
 
   // Dio インスタンスを生成
@@ -58,9 +59,13 @@ final refreshRepositoryProvider = Provider<RefreshRepository>((ref) {
 final authInterceptorProvider = Provider<AuthInterceptor>((ref) {
   final dio = ref.read(dioProvider);
   final repo = ref.read(refreshRepositoryProvider);
-  final interceptor = AuthInterceptor(dio, repo, onRefreshFailed: () async {
-    ref.read(loginViewModelProvider.notifier).logout();
-  },);
+  final interceptor = AuthInterceptor(
+    dio,
+    repo,
+    onRefreshFailed: () async {
+      ref.read(loginViewModelProvider.notifier).logout();
+    },
+  );
   dio.interceptors.add(interceptor);
   return interceptor;
 });

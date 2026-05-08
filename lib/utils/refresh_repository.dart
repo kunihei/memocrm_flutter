@@ -19,6 +19,7 @@ class RefreshRepository {
         connectTimeout: dio.options.connectTimeout,
         receiveTimeout: dio.options.receiveTimeout,
         contentType: dio.options.contentType,
+        headers: Map<String, dynamic>.from(dio.options.headers),
       ),
     );
   }
