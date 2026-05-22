@@ -65,7 +65,7 @@ class _SplashViewState extends State<SplashView>
       body: Center(
         child: FadeTransition(
           opacity: _opacity,
-          child: const CircularProgressIndicator(),
+          child: const Text('MEMO CRM'),
         ),
       ),
     );

@@ -6,13 +6,20 @@ import 'package:memocrm/company/view_model/co_list_view_model.dart';
 import 'package:memocrm/company/widgets/widgets.dart';
 import 'package:memocrm/utils/loading_overlay.dart';
 
+/// 顧客会社の一覧を表示する画面。
+///
+/// 会社データを取得して一覧表示し、未登録時の空状態、読み込み中のローディング、
+/// エラー時の通知までをまとめて扱う。
 class CompanyListView extends HookConsumerWidget {
   const CompanyListView({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    // 一覧データ、読み込み状態、エラーメッセージをViewModelから購読する。
     final coState = ref.watch(coListViewModelProvider);
 
+    // 画面表示直後に会社一覧を取得する。
+    // build中に状態を更新しないよう、描画後のコールバックで実行する。
     useEffect(() {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.read(coListViewModelProvider.notifier).fetchCoList();
@@ -20,6 +27,8 @@ class CompanyListView extends HookConsumerWidget {
       return null;
     }, [ref]);
 
+    // データ取得などで発生したエラーをSnackBarでユーザーに知らせる。
+    // 同じエラーを再表示し続けないよう、前回と違うメッセージだけ表示する。
     ref.listen<CoListState>(coListViewModelProvider, (previous, next) {
       if (next.errorMessage != null &&
           next.errorMessage != previous?.errorMessage) {
@@ -29,12 +38,16 @@ class CompanyListView extends HookConsumerWidget {
       }
     });
 
+    // Pull-to-refreshで会社一覧を再取得するための処理。
     Future<void> refresh() async {
       await ref.read(coListViewModelProvider.notifier).fetchCoList();
     }
 
+    // View側では状態オブジェクトから表示に必要な一覧データだけを取り出す。
     final coList = coState.data;
 
+    // 一覧が空の場合は空状態のWidgetを表示し、データがある場合はカード形式で表示する。
+    // RefreshIndicatorで包むことで、どちらの状態でも下に引っ張って再読み込みできる。
     final listView = RefreshIndicator(
       onRefresh: refresh,
       child: coList.isEmpty
@@ -50,6 +63,7 @@ class CompanyListView extends HookConsumerWidget {
             ),
     );
 
+    // 読み込み中は画面全体にローディングを重ね、一覧操作と状態表示を分離する。
     return LoadingOverlay(
       isLoading: coState.isLoading,
       child: Scaffold(

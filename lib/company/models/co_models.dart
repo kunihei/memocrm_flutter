@@ -11,16 +11,14 @@ import 'package:memocrm/utils/api/api_response.dart';
 class CoData {
   final int coCd;
   final String coName;
-  final String coAdress;
-  final String coTantoName;
-  final String coTel;
+  final String lastMemoTime;
+  final int memoCount;
 
   CoData({
     required this.coCd,
     required this.coName,
-    required this.coAdress,
-    required this.coTantoName,
-    required this.coTel,
+    required this.lastMemoTime,
+    required this.memoCount,
   });
 
   // 会社1件分のJSONを CoData に変換する factory コンストラクタ。
@@ -38,12 +36,10 @@ class CoData {
       coCd: json['co_cd'],
       // 会社名を取得する。
       coName: json['co_name'],
-      // 会社住所を取得する。
-      coAdress: json['co_address'],
-      // 会社担当者名を取得する。
-      coTantoName: json['co_tanto_name'],
-      // 会社担当者電話番号を取得する。
-      coTel: json['co_tanto_tel'],
+      // メモ件数を取得する
+      memoCount: json['memo_count'],
+      // 最終メモ更新日時を取得する。
+      lastMemoTime: json['last_memo_time'],
     );
   }
 }
