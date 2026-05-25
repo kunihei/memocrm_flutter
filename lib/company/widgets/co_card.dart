@@ -28,6 +28,7 @@ class CoCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.fromLTRB(22, 20, 22, 20),
             decoration: BoxDecoration(
+              color: Colors.white,
               borderRadius: BorderRadius.circular(18),
               boxShadow: [
                 BoxShadow(
@@ -40,15 +41,6 @@ class CoCard extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  width: 8,
-                  height: 8,
-                  margin: const EdgeInsets.only(top: 8),
-                  decoration: const BoxDecoration(
-                    color: Color(0xFF0068B7),
-                    shape: BoxShape.circle,
-                  ),
-                ),
                 const SizedBox(width: 18),
                 Expanded(
                   child: Column(
@@ -67,7 +59,7 @@ class CoCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        '最終メモ:${co.lastMemoTime}',
+                        '最終メモ:${_formatLastMemoTime(co.lastMemoTime)}',
                         style: const TextStyle(
                           color: Color(0xFF747B8B),
                           fontSize: 13,
@@ -82,7 +74,7 @@ class CoCard extends StatelessWidget {
                           vertical: 7,
                         ),
                         decoration: BoxDecoration(
-                          color: Color(0xFFF3F3FA),
+                          color: const Color(0xFFF3F3FA),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Row(
@@ -124,5 +116,16 @@ class CoCard extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  String _formatLastMemoTime(String value) {
+    final dateTime = DateTime.tryParse(value);
+    if (dateTime == null) {
+      final lastColonIndex = value.lastIndexOf(':');
+      return lastColonIndex == -1 ? value : value.substring(0, lastColonIndex);
+    }
+    final hour = dateTime.hour.toString().padLeft(2, '0');
+    final minute = dateTime.minute.toString().padLeft(2, '0');
+    return '${dateTime.year}年${dateTime.month}月${dateTime.day}日 $hour:$minute';
   }
 }

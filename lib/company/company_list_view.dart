@@ -69,6 +69,14 @@ class CompanyListView extends HookConsumerWidget {
       child: Scaffold(
         appBar: AppBar(title: const Text('会社リスト')),
         body: listView,
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            print('Add button pressed');
+          },
+          backgroundColor: const Color(0xFF0068B7),
+          foregroundColor: Colors.white,
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
