@@ -58,7 +58,7 @@ class CompanyListView extends HookConsumerWidget {
               itemCount: coList.length,
               itemBuilder: (context, index) {
                 final co = coList[index];
-                return CoCard(co: co, index: index, onTap: () {});
+                return CoCard(co: co, onTap: () {});
               },
             ),
     );
