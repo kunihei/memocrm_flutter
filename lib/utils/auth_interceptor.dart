@@ -6,12 +6,30 @@ import 'package:memocrm/utils/refresh_repository.dart';
 class AuthInterceptor extends Interceptor {
   final Dio dio;
   final RefreshRepository refreshRepo;
+  final Future<void> Function()? onRefreshFailed;
   Future<bool>? _refreshFuture;
+  Future<void>? _refreshFailedFuture;
 
-  AuthInterceptor(this.dio, this.refreshRepo);
+  AuthInterceptor(this.dio, this.refreshRepo, {this.onRefreshFailed});
+
+  Future<void> _handleRefreshFailed() {
+    _refreshFailedFuture ??= _runRefreshFailed();
+    return _refreshFailedFuture!;
+  }
+
+  Future<void> _runRefreshFailed() async {
+    try {
+      await onRefreshFailed?.call();
+    } finally {
+      _refreshFailedFuture = null;
+    }
+  }
 
   @override
-  void onRequest(RequestOptions options, RequestInterceptorHandler handler) async {
+  void onRequest(
+    RequestOptions options,
+    RequestInterceptorHandler handler,
+  ) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('login_accessToken');
     final tokenType = prefs.getString('login_tokenType') ?? 'Bearer';
@@ -25,7 +43,8 @@ class AuthInterceptor extends Interceptor {
   void onError(DioException err, ErrorInterceptorHandler handler) async {
     final reqOptions = err.requestOptions;
 
-    if (err.response?.statusCode == 401 && reqOptions.extra['retried'] != true) {
+    if (err.response?.statusCode == 401 &&
+        reqOptions.extra['retried'] != true) {
       try {
         // 同時リフレッシュをまとめる（dio.lock は使わない）
         _refreshFuture ??= refreshRepo.refreshIfPossible();
@@ -33,6 +52,7 @@ class AuthInterceptor extends Interceptor {
         _refreshFuture = null;
 
         if (didRefresh != true) {
+          await _handleRefreshFailed();
           return handler.next(err);
         }
 
@@ -66,6 +86,7 @@ class AuthInterceptor extends Interceptor {
 
         return handler.resolve(resp);
       } catch (_) {
+        await _handleRefreshFailed();
         return handler.next(err);
       }
     }

@@ -43,10 +43,11 @@ class LoginResponse extends ApiResponse<LoginData> {
     Map<String, dynamic> json, {
     required int status,
   }) {
+    final dataJson = json['data'] as Map<String, dynamic>?;
     return LoginResponse(
       status: status,
       messageList: ApiResponse.parseMessage(json['message_list']),
-      data: LoginData.fromJson(json),
+      data: dataJson != null ? LoginData.fromJson(dataJson) : null,
     );
   }
 }
