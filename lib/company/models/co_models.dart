@@ -33,13 +33,13 @@ class CoData {
   factory CoData.fromJson(Map<String, dynamic> json) {
     return CoData(
       // 会社コードを取得する。
-      coCd: json['co_cd'],
+      coCd: json['co_cd'] as int,
       // 会社名を取得する。
-      coName: json['co_name'],
+      coName: json['co_name'] as String,
       // メモ件数を取得する
-      memoCount: json['memo_count'],
+      memoCount: json['memo_count'] as int,
       // 最終メモ更新日時を取得する。
-      lastMemoTime: json['last_memo_time'],
+      lastMemoTime: json['last_memo_time'] as String,
     );
   }
 }
@@ -74,7 +74,7 @@ class CoResponse extends ApiResponse<List<CoData>> {
       // HTTPステータスなど、呼び出し元から渡されたステータスを設定する。
       status: status,
       // API共通の message_list を、ApiResponse 側の共通処理で変換する。
-      messageList: ApiResponse.parseMessage(json['message']),
+      messageList: ApiResponse.parseMessage(json['message_list']),
       // dataJson が null でなければ、配列の各要素を CoData に変換する。
       // item は dynamic 型なので、CoData.fromJson に渡す前に Map<String, dynamic> へキャストする。
       data: dataJson

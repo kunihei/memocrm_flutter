@@ -8,8 +8,22 @@ class AuthInterceptor extends Interceptor {
   final RefreshRepository refreshRepo;
   final Future<void> Function()? onRefreshFailed;
   Future<bool>? _refreshFuture;
+  Future<void>? _refreshFailedFuture;
 
   AuthInterceptor(this.dio, this.refreshRepo, {this.onRefreshFailed});
+
+  Future<void> _handleRefreshFailed() {
+    _refreshFailedFuture ??= _runRefreshFailed();
+    return _refreshFailedFuture!;
+  }
+
+  Future<void> _runRefreshFailed() async {
+    try {
+      await onRefreshFailed?.call();
+    } finally {
+      _refreshFailedFuture = null;
+    }
+  }
 
   @override
   void onRequest(
@@ -38,7 +52,7 @@ class AuthInterceptor extends Interceptor {
         _refreshFuture = null;
 
         if (didRefresh != true) {
-          await onRefreshFailed?.call();
+          await _handleRefreshFailed();
           return handler.next(err);
         }
 
@@ -72,7 +86,7 @@ class AuthInterceptor extends Interceptor {
 
         return handler.resolve(resp);
       } catch (_) {
-        await onRefreshFailed?.call();
+        await _handleRefreshFailed();
         return handler.next(err);
       }
     }
