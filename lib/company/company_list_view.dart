@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
+import 'package:memocrm/router/app_route.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:memocrm/utils/messenger_key.dart';
 import 'package:memocrm/company/view_model/co_list_view_model.dart';
@@ -58,7 +60,16 @@ class CompanyListView extends HookConsumerWidget {
               itemCount: coList.length,
               itemBuilder: (context, index) {
                 final co = coList[index];
-                return CoCard(co: co, onTap: () {});
+                return CoCard(
+                  co: co,
+                  onTap: () {
+                    context.pushNamed(
+                      AppName.memo,
+                      pathParameters: {'coCd': co.coCd.toString()},
+                      extra: co.coName,
+                    );
+                  },
+                );
               },
             ),
     );

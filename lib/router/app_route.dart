@@ -17,17 +17,20 @@ class AppName {
   /// オブジェクトを作る必要がない。
   const AppName._();
 
-  /// スプラッシュ画面のルート名。
+  /// スプラッシュ画面のルート名
   static const splash = 'splash';
 
-  /// ログイン画面のルート名。
+  /// ログイン画面のルート名
   static const login = 'login';
 
-  /// 動作確認や仮実装で使うダミー画面のルート名。
+  /// 動作確認や仮実装で使うダミー画面のルート名
   static const dummy = 'dummy';
 
-  /// 会社リスト画面のルート名。
+  /// 会社リスト画面のルート名
   static const company = 'company';
+  
+  /// メモリスト画面のルート名
+  static const memo = 'memo';
 }
 
 /// `GoRoute.path` に設定する URL パスをまとめたクラス。
@@ -40,17 +43,20 @@ class AppPath {
   /// `AppName` と同じく、このクラスも定数をまとめるためだけに使う。
   const AppPath._();
 
-  /// アプリ起動直後に表示するスプラッシュ画面のパス。
+  /// アプリ起動直後に表示するスプラッシュ画面のパス
   static const splash = '/splash';
 
-  /// ログイン画面のパス。
+  /// ログイン画面のパス
   ///
   /// 現在はアプリのルート `/` をログイン画面として扱っている。
   static const login = '/';
 
-  /// ダミー画面のパス。
+  /// ダミー画面のパス
   static const dummy = '/dummy';
 
-  /// 会社リスト画面のパス。
+  /// 会社リスト画面のパス
   static const company = '/company';
+
+  /// メモリスト画面のパス
+  static const memo = '/memo/:coCd';
 }
