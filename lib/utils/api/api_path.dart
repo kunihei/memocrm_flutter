@@ -1,8 +1,9 @@
 class ApiParentPath {
   static const customers = 'customers';
+  static const memos = 'memos';
 }
 
 class ApiPath {
   static const login = 'login';
-  static const coList = 'list';
+  static const list = 'list';
 }
