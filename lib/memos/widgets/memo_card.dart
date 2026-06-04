@@ -10,31 +10,57 @@ class MemoCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(bottom: 12),
-      child: Material(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(18),
-        child: Container(
-          padding: EdgeInsets.fromLTRB(22, 20, 22, 20),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(18),
-            boxShadow: [
-              BoxShadow(
-                color: const Color(0xFF1B2559).withValues(alpha: 0.66),
-                blurRadius: 18,
-                offset: const Offset(0, 8),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(22, 20, 22, 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(18),
+        ),
+        child: Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                memo.tantoName,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              Text(
+                memo.time,
+                style: TextStyle(fontSize: 14, color: Color(0xFF8A8C92)),
+              ),
+              SizedBox(height: 15),
+              Text(
+                memo.title,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ),
+              SizedBox(height: 5),
+              Text(
+                memo.content,
+                style: TextStyle(color: Color(0xFF8A8C92)),
+                ),
+              SizedBox(height: 10),
+              Wrap(
+                spacing: 8,
+                runSpacing: 8,
+                children: memo.tags.map((tag) {
+                  return Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(206, 241, 242, 246),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      tag.tagName,
+                      style: TextStyle(
+                        fontSize: 11,
+                        color: Color(0xFF555555),
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  );
+                }).toList(),
               ),
             ],
-          ),
-          child: Expanded(
-            child: Column(
-              children: [
-                Text(memo.title),
-                SizedBox(height: 8),
-                Text(memo.content),
-                SizedBox(height: 10),
-              ],
-            ),
           ),
         ),
       ),
