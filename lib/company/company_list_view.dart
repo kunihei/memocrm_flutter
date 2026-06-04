@@ -23,6 +23,7 @@ class CompanyListView extends HookConsumerWidget {
     // 画面表示直後に会社一覧を取得する。
     // build中に状態を更新しないよう、描画後のコールバックで実行する。
     useEffect(() {
+      // 今描画中のフレームが終わった直後に、この処理を実行してという予約コード
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.read(coListViewModelProvider.notifier).fetchCoList();
       });

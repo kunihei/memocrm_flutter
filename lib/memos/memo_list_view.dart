@@ -5,6 +5,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:memocrm/utils/messenger_key.dart';
 import 'package:memocrm/memos/viewModel/memo_list_view_model.dart';
 import 'package:memocrm/utils/loading_overlay.dart';
+import 'package:memocrm/memos/widgets/widgets.dart';
 
 class MemoListView extends HookConsumerWidget {
   final int coCd;
@@ -32,29 +33,43 @@ class MemoListView extends HookConsumerWidget {
       }
     });
 
-    final memoList = memoState.data;
-    print('memoList: $memoList');
+    Future<void> refresh() async {
+      await ref.read(memoListViewModelProvider.notifier).fetchMemoList(coCd);
+    }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(coName),
-        leading: IconButton(
-          onPressed: () {
-            context.pop();
-          },
-          icon: const Icon(Icons.arrow_back),
+    final memoList = memoState.data;
+
+    final listView = RefreshIndicator(
+      onRefresh: refresh,
+      child: memoList.isEmpty
+          ? const EmptyMemo()
+          : ListView.builder(
+              padding: const EdgeInsets.all(16),
+              physics: const AlwaysScrollableScrollPhysics(),
+              itemCount: memoList.length,
+              itemBuilder: (context, index) {
+                final memo = memoList[index];
+                return MemoCard(memo: memo);
+              },
+            ),
+    );
+
+    return LoadingOverlay(
+      isLoading: memoState.isLoading,
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(coName),
+          leading: IconButton(
+            onPressed: () {
+              context.pop();
+            },
+            icon: const Icon(Icons.arrow_back),
+          ),
         ),
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.only(top: 30.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text(coName),
-              SizedBox(height: 10),
-              Text('Company Code: $coCd'),
-            ],
+        body: Center(
+          child: Padding(
+            padding: const EdgeInsets.only(top: 30.0),
+            child: listView,
           ),
         ),
       ),

@@ -1,27 +1,36 @@
 import 'package:memocrm/utils/api/api_response.dart';
+import 'package:memocrm/memos/models/tag_model.dart';
 
 class MemoData {
+  final int coCd;
   final int memoCd;
-  // final String tantoName;
-  final String memoTitle;
-  final String memoContent;
-  // final Map<String, String> tags;
+  final String tantoName;
+  final String title;
+  final String content;
+  final String time;
+  final List<TagData> tags;
 
   MemoData({
+    required this.coCd,
     required this.memoCd,
-    // required this.tantoName,
-    required this.memoTitle,
-    required this.memoContent,
-    // required this.tags,
+    required this.tantoName,
+    required this.title,
+    required this.content,
+    required this.time,
+    required this.tags,
   });
 
   factory MemoData.fromJson(Map<String, dynamic> json) {
     return MemoData(
+      coCd: json['co_cd'] as int,
       memoCd: json['memo_cd'] as int,
-      // tantoName: json['tanto_name'] as String,
-      memoTitle: json['title'] as String,
-      memoContent: json['content'] as String,
-      // tags: Map<String, String>.from(json['tags'] as Map),
+      tantoName: json['co_tanto_name'] as String,
+      title: json['title'] as String,
+      content: json['content'] as String,
+      time: json['memo_time'] as String,
+      tags: (json['tags'] as List<dynamic>)
+          .map((tag) => TagData.fromJson(tag as Map<String, dynamic>))
+          .toList(),
     );
   }
 }
