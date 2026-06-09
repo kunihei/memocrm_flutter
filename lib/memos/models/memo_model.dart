@@ -1,5 +1,5 @@
-import 'package:memocrm/utils/api/api_response.dart';
 import 'package:memocrm/memos/models/tag_model.dart';
+import 'package:memocrm/utils/api/api_response.dart';
 
 class MemoData {
   final int coCd;

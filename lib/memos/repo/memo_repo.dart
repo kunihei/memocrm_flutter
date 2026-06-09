@@ -5,7 +5,6 @@ import 'package:memocrm/utils/api/api_path.dart';
 import 'package:memocrm/utils/dio_client.dart';
 
 class MemoRepo {
-
   MemoRepo(this._dio);
   final Dio _dio;
 
@@ -15,7 +14,10 @@ class MemoRepo {
     );
 
     final responseBody = response.data ?? const <String, dynamic>{};
-    return MemoResponse.fromJson(responseBody, status: response.statusCode ?? 0);
+    return MemoResponse.fromJson(
+      responseBody,
+      status: response.statusCode ?? 0,
+    );
   }
 }
 

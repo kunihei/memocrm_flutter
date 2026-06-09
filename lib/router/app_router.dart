@@ -12,9 +12,9 @@ import 'package:memocrm/company/company_list_view.dart';
 import 'package:memocrm/dummy/dummy_view.dart';
 import 'package:memocrm/login/login_view.dart';
 import 'package:memocrm/login/view_model/login_viewmodel.dart';
+import 'package:memocrm/memos/memo_list_view.dart';
 import 'package:memocrm/router/app_route.dart';
 import 'package:memocrm/splash/splash_view.dart';
-import 'package:memocrm/memos/memo_list_view.dart';
 
 const _splashTransitionQueryKey = 'transition';
 const _splashTransitionQueryValue = 'splash';

@@ -28,7 +28,7 @@ class AppName {
 
   /// 会社リスト画面のルート名
   static const company = 'company';
-  
+
   /// メモリスト画面のルート名
   static const memo = 'memo';
 }
