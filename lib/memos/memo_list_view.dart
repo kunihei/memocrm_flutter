@@ -44,14 +44,14 @@ class MemoListView extends HookConsumerWidget {
       onRefresh: refresh,
       child: memoList.isEmpty
           ? const EmptyMemo()
-          : ListView.builder(
-              padding: const EdgeInsets.all(16),
+          : SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
-              itemCount: memoList.length,
-              itemBuilder: (context, index) {
-                final memo = memoList[index];
-                return MemoCard(memo: memo);
-              },
+              child: Column(
+                children: [
+                  Text('Memos'),
+                  for (final memo in memoList) MemoCard(memo: memo),
+                ],
+              ),
             ),
     );
 
