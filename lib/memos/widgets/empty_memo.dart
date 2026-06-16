@@ -8,8 +8,8 @@ class EmptyMemo extends StatelessWidget {
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
       children: [
-        SizedBox(height: 120),
-        Center(child: Text('メモがありません')),
+        const SizedBox(height: 120),
+        const Center(child: Text('メモがありません')),
       ],
     );
   }

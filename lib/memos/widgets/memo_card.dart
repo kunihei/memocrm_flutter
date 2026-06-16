@@ -75,27 +75,27 @@ class MemoCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            const SizedBox(height: 15),
             Text(
               memo.title,
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
             ),
-            SizedBox(height: 5),
-            Text(memo.content, style: TextStyle(color: Color(0xFF8A8C92))),
-            SizedBox(height: 10),
+            const SizedBox(height: 5),
+            Text(memo.content, style: const TextStyle(color: Color(0xFF8A8C92))),
+            const SizedBox(height: 10),
             Wrap(
               spacing: 8,
               runSpacing: 8,
               children: memo.tags.map((tag) {
                 return Container(
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(206, 241, 242, 246),
+                    color: const Color.fromARGB(206, 241, 242, 246),
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
                     tag.tagName,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 11,
                       color: Color(0xFF555555),
                       fontWeight: FontWeight.w500,

@@ -14,7 +14,7 @@ final dioProvider = Provider<Dio>((ref) {
   // 環境変数から API のベース URL を読み取る。CI/本番ではビルド時に `--dart-define` 等で上書き可能。
   const baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:8081/api/',
+    defaultValue: 'http://localhost:8081',
   );
 
   // 共通の設定をまとめたオプション。
@@ -22,7 +22,7 @@ final dioProvider = Provider<Dio>((ref) {
   // - connect/receive タイムアウト: ネットワーク待ちを短めに設定
   // - contentType: フォームエンコードを使用する API に合わせて設定
   final options = BaseOptions(
-    baseUrl: baseUrl,
+    baseUrl: '$baseUrl/api/',
     connectTimeout: const Duration(seconds: 10),
     receiveTimeout: const Duration(seconds: 10),
     contentType: Headers.formUrlEncodedContentType,
