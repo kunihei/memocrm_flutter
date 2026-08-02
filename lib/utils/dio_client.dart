@@ -14,7 +14,7 @@ final dioProvider = Provider<Dio>((ref) {
   // 環境変数から API のベース URL を読み取る。CI/本番ではビルド時に `--dart-define` 等で上書き可能。
   const baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:8081',
+    defaultValue: 'http://localhost:8080',
   );
 
   // 共通の設定をまとめたオプション。
