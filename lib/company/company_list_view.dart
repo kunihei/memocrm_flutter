@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:memocrm/utils/messenger_key.dart';
 import 'package:memocrm/company/view_model/co_list_view_model.dart';
 import 'package:memocrm/company/widgets/widgets.dart';
+import 'package:memocrm/router/app_route.dart';
 import 'package:memocrm/utils/loading_overlay.dart';
+import 'package:memocrm/utils/messenger_key.dart';
 
 /// 顧客会社の一覧を表示する画面。
 ///
@@ -21,6 +23,7 @@ class CompanyListView extends HookConsumerWidget {
     // 画面表示直後に会社一覧を取得する。
     // build中に状態を更新しないよう、描画後のコールバックで実行する。
     useEffect(() {
+      // 今描画中のフレームが終わった直後に、この処理を実行してという予約コード
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ref.read(coListViewModelProvider.notifier).fetchCoList();
       });
@@ -58,7 +61,16 @@ class CompanyListView extends HookConsumerWidget {
               itemCount: coList.length,
               itemBuilder: (context, index) {
                 final co = coList[index];
-                return CoCard(co: co, onTap: () {});
+                return CoCard(
+                  co: co,
+                  onTap: () {
+                    context.pushNamed(
+                      AppName.memo,
+                      pathParameters: {'coCd': co.coCd.toString()},
+                      extra: co.coName,
+                    );
+                  },
+                );
               },
             ),
     );

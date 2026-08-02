@@ -14,7 +14,7 @@ class ApiResponse<T> {
 
   // 成功かどうかを判定するプロパティ
   // 一部APIで100が成功コードして返すため、100/200を成功扱いにする
-  bool get isSuccess => status == 200 || status ==  100;
+  bool get isSuccess => status == 200 || status == 100;
   // メッセージを改行で結合して取得するプロパティ
   String? get message => messageList.isEmpty ? null : messageList.join('\n');
 

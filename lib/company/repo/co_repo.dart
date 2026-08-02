@@ -49,7 +49,7 @@ class CoRepo {
     // 企業一覧 API のエンドポイントへ GET リクエストを送る。
     // `get<Map<String, dynamic>>` と型を指定することで、レスポンス本文を JSON オブジェクトとして扱う。
     final response = await _dio.get<Map<String, dynamic>>(
-      '${ApiParentPath.customers}/${ApiPath.coList}',
+      '${ApiParentPath.customers}/${ApiPath.list}',
     );
 
     // API のレスポンス本文を取り出す。

@@ -98,8 +98,12 @@ class LoginForm extends HookWidget {
             },
             decoration: InputDecoration(
               hintText: 'メールアドレス',
-              enabledBorder: _underLineBorder(hasError: emailError.value != null),
-              focusedBorder: _underLineBorder(hasError: emailError.value != null),
+              enabledBorder: _underLineBorder(
+                hasError: emailError.value != null,
+              ),
+              focusedBorder: _underLineBorder(
+                hasError: emailError.value != null,
+              ),
             ),
           ),
           // メールアドレスの入力エラーがある場合だけ、入力欄の下にメッセージを表示する。
@@ -107,7 +111,10 @@ class LoginForm extends HookWidget {
             const SizedBox(height: 4),
             Align(
               alignment: Alignment.centerLeft,
-              child: Text(emailError.value!, style: TextStyle(color: Colors.red)),
+              child: Text(
+                emailError.value!,
+                style: TextStyle(color: Colors.red),
+              ),
             ),
           ],
           const SizedBox(height: 20),

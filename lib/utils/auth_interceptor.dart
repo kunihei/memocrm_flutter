@@ -1,7 +1,8 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:memocrm/utils/refresh_repository.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInterceptor extends Interceptor {
   final Dio dio;

@@ -34,7 +34,10 @@ class LoginRepo {
     // サーバが空レスポンスを返した場合に備えてデフォルト空の Map を用意
     final responseBody = response.data ?? const <String, dynamic>{};
     // JSON → LoginResponse へ変換して返却
-    return LoginResponse.fromJson(responseBody, status: response.statusCode ?? 0);
+    return LoginResponse.fromJson(
+      responseBody,
+      status: response.statusCode ?? 0,
+    );
   }
 }
 

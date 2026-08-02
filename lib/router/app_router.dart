@@ -12,6 +12,7 @@ import 'package:memocrm/company/company_list_view.dart';
 import 'package:memocrm/dummy/dummy_view.dart';
 import 'package:memocrm/login/login_view.dart';
 import 'package:memocrm/login/view_model/login_viewmodel.dart';
+import 'package:memocrm/memos/memo_list_view.dart';
 import 'package:memocrm/router/app_route.dart';
 import 'package:memocrm/splash/splash_view.dart';
 
@@ -89,6 +90,18 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         name: AppName.company,
         pageBuilder: (context, state) =>
             _buildPage(state: state, child: const CompanyListView()),
+      ),
+      GoRoute(
+        path: AppPath.memo,
+        name: AppName.memo,
+        pageBuilder: (context, state) {
+          final coCd = int.parse(state.pathParameters['coCd']!);
+          final coName = state.extra as String;
+          return _buildPage(
+            state: state,
+            child: MemoListView(coCd: coCd, coName: coName),
+          );
+        },
       ),
     ],
   );
