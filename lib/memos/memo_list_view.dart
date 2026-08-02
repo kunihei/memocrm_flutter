@@ -40,7 +40,6 @@ class MemoListView extends HookConsumerWidget {
     }
 
     final memoList = memoState.data;
-    final isSortDescending = useState(true);
 
     final listView = RefreshIndicator(
       onRefresh: refresh,
